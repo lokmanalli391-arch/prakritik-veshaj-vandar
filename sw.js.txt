@@ -1,0 +1,41 @@
+const CACHE_NAME = 'prakritik-veshaj-vandar-v2';
+const urlsToCache = [
+  './',
+  './index.html',
+  './manifest.json',
+  './404.html'
+];
+
+self.addEventListener('install', e => {
+  console.log('SW Install');
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache)).then(()=>self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', e => {
+  console.log('SW Activate');
+  e.waitUntil(
+    caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', e => {
+  if(e.request.method !== 'GET') return;
+  const url = new URL(e.request.url);
+  // For Google Sheet backup POST, don't cache
+  if(url.href.includes('script.google') || url.href.includes('googleapis')) return;
+  
+  e.respondWith(
+    caches.match(e.request).then(res => {
+      if(res) return res;
+      return fetch(e.request).then(netRes => {
+        if(netRes.ok && url.origin === location.origin){
+          const clone = netRes.clone();
+          caches.open(CACHE_NAME).then(c=>c.put(e.request, clone));
+        }
+        return netRes;
+      }).catch(()=> caches.match('./index.html'));
+    })
+  );
+});
