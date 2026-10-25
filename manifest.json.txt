@@ -1,0 +1,26 @@
+{
+  "name": "প্রাকৃতিক ভেষজ ভান্ডার",
+  "short_name": "ভেষজ ভান্ডার",
+  "description": "প্রাকৃতিক ভেষজ ভান্ডার - দোকান ম্যানেজমেন্ট POS - ২৯টি মসলা + ১০৯টি ভেষজ + ১২টি মডিউল",
+  "theme_color": "#17402c",
+  "background_color": "#eef3ec",
+  "display": "standalone",
+  "start_url": "./index.html",
+  "scope": "./",
+  "lang": "bn",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
